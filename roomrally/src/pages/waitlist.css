@@ -1,0 +1,54 @@
+.waitlist-container {
+  font-family: "Arial", sans-serif;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.waitlist-status {
+  background: #eee;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+  width: 90%;
+}
+
+.waitlist-status h2 {
+  margin-top: 0;
+}
+
+.waitlist-status button {
+  background-color: maroon;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 90%;
+}
+
+.join-waitlist input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.join-waitlist button {
+  background-color: maroon;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 95%;
+}
+
+.confirmation-message {
+  color: green;
+  margin-top: 20px;
+  text-align: center;
+  width: 90%;
+}
