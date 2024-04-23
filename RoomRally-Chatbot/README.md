@@ -1,4 +1,4 @@
-# RoomRally-app
+# RoomRally Chat 
 
 ## Installation
 
@@ -52,15 +52,30 @@ langchain serve
 
 This project folder includes a Dockerfile that allows you to easily build and host your LangServe app.
 
+This Dockerfile is set up to take in the following files you must add in the project folder:
+
+*GCP-Key.json*
+
+and
+
+*.env*
+
+```shell
+# .env
+PROJECT_ID=your_project_id
+REGION=us-central1
+BUCKET_URI=your_bucket
+GOOGLE_APPLICATION_CREDENTIALS="./GCP-Key.json"
+```
 ### Building the Image
 
 To build the image, you simply:
 
 ```shell
-docker build . -t my-langserve-app
+docker build . -t roomrally-chat
 ```
 
-If you tag your image with something other than `my-langserve-app`,
+If you tag your image with something other than `roomrally-chat`,
 note it for use in the next step.
 
 ### Running the Image Locally
@@ -68,12 +83,47 @@ note it for use in the next step.
 To run the image, you'll need to include any environment variables
 necessary for your application.
 
-In the below example, we inject the `OPENAI_API_KEY` environment
-variable with the value set in my local environment
-(`$OPENAI_API_KEY`)
+In the below example, additional environment variables like `OPENAI_API_KEY` can be set with '-e'with the value set in my local environment.
+(-e OPENAI_API_KEY=`$OPENAI_API_KEY`)
 
-We also expose port 8080 with the `-p 8080:8080` option.
+However since we must sepecify our Google credentials key.json and .env with parameters for 
+
+We need to expose port 8080 with the `-p 8080:8080` option.
 
 ```shell
-docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 my-langserve-app
+docker run -p 8080:8080 -it --rm roomrally-chat
+```
+
+![Langserve Docker](image.png)
+
+![API view](image-1.png)
+
+![Playground](image-2.png)
+
+### Running the Image on Google Cloud Platform
+After making your image 
+
+```shell
+docker tag [local-image-name] gcr.io/[your-project-id]/[your-image-name]
+```
+
+```shell
+docker push gcr.io/[your-project-id]/[your-image-name]
+```
+
+```shell
+gcloud run deploy [your-service-name] \
+    --image gcr.io/[your-project-id]/[your-image-name] \
+    --port 8080 \
+    --allow-unauthenticated \
+    --region us-central1
+```
+
+After deployment, Google Cloud Run provides the public URL of your service. You can also retrieve it using:
+
+```shell
+gcloud run services describe [your-service-name] \
+   --platform managed \
+   --region [your-preferred-region] \
+   --format "value(status.url)"
 ```

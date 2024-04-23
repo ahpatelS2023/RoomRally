@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import os
 import bs4
 from fastapi import FastAPI, HTTPException, Request

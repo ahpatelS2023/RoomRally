@@ -1,9 +1,4 @@
-FROM python:3.11-slim
-
-ENV PROJECT_ID=your_id
-ENV REGION=us-central1
-ENV BUCKET_URI=gs://your_bucket
-ENV GOOGLE_APPLICATION_CREDENTIALS="./GCP-generativeai-Key.json"
+FROM python:3.9-slim
 
 RUN pip install poetry==1.6.1
 
@@ -15,7 +10,13 @@ COPY ./pyproject.toml ./README.md ./poetry.lock* ./
 
 COPY ./package[s] ./packages
 
+COPY ./.env ./
+
+COPY ./GCP-generativeai-Key.json ./
+
 RUN poetry install  --no-interaction --no-ansi --no-root
+
+RUN apt-get update && apt-get install -y git
 
 COPY ./app ./app
 
